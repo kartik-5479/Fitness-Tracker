@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Planner | MealMetric</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="hero subpage-hero">
+            <div class="hero-copy">
+                <div class="top-bar">
+                    <button
+                        type="button"
+                        id="themeToggle"
+                        class="theme-toggle icon-toggle"
+                        aria-label="Switch to dark mode"
+                        title="Switch theme"
+                    >
+                        <span class="theme-icon theme-icon-moon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" class="theme-svg" focusable="false">
+                                <path d="M20 15.2A8.5 8.5 0 0 1 8.8 4a9 9 0 1 0 11.2 11.2Z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                        <span class="theme-icon theme-icon-sun hidden" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" class="theme-svg" focusable="false">
+                                <circle cx="12" cy="12" r="4.5" fill="currentColor"/>
+                                <path d="M12 1.8v3.1M12 19.1v3.1M4.8 4.8l2.2 2.2M17 17l2.2 2.2M1.8 12h3.1M19.1 12h3.1M4.8 19.2 7 17M17 7l2.2-2.2" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="1.8"/>
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+                <p class="eyebrow">Planning</p>
+                <h1>Diet Planner</h1>
+                <p class="hero-text">
+                    Build a daily calorie target and a suggested meal split based on your details and goal.
+                </p>
+                <div class="page-actions">
+                    <a class="theme-toggle" href="{{ url_for('index') }}">Back to Dashboard</a>
+                    <button type="button" id="logoutButton" class="theme-toggle">Logout</button>
+                </div>
+            </div>
+            <div class="hero-card">
+                <p>Signed in as</p>
+                <h2>{{ current_user["name"] }}</h2>
+                <span>{{ current_user["email"] }}</span>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <section class="panel planner-panel">
+                <div class="section-heading">
+                    <h3>Diet Planner</h3>
+                    <p>Enter your body details to calculate a daily calorie target.</p>
+                </div>
+
+                <form id="planForm" class="form-grid planner-grid">
+                    <label>
+                        Age
+                        <input type="number" id="age" min="1" required>
+                    </label>
+
+                    <label>
+                        Weight (kg)
+                        <input type="number" id="weight" min="1" step="0.1" required>
+                    </label>
+
+                    <label>
+                        Height (cm)
+                        <input type="number" id="height" min="1" step="0.1" required>
+                    </label>
+
+                    <label>
+                        Gender
+                        <select id="gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Activity Level
+                        <select id="activity" required>
+                            <option value="sedentary">Sedentary</option>
+                            <option value="light">Lightly Active</option>
+                            <option value="moderate">Moderately Active</option>
+                            <option value="active">Very Active</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Goal
+                        <select id="goal" required>
+                            <option value="lose">Weight Loss</option>
+                            <option value="maintain">Maintain Weight</option>
+                            <option value="gain">Weight Gain</option>
+                        </select>
+                    </label>
+
+                    <button type="submit" class="primary-btn">Generate Plan</button>
+                </form>
+
+                <p id="planMessage" class="message"></p>
+
+                <div id="planResult" class="plan-result hidden">
+                    <div class="target-card">
+                        <span>Recommended daily intake</span>
+                        <h2 id="targetOutput">0</h2>
+                        <p>calories per day</p>
+                    </div>
+
+                    <div>
+                        <h4>Suggested Meal Split</h4>
+                        <div id="mealCards" class="meal-grid"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
